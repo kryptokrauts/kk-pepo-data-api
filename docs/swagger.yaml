@@ -1,0 +1,98 @@
+basePath: /pepo/v1
+definitions:
+  httputil.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  model.Creator:
+    properties:
+      github_handle:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      profile_image:
+        type: string
+      tokenholder_address:
+        type: string
+      twitter_handle:
+        type: string
+    type: object
+  model.PepoVideo:
+    properties:
+      created_at:
+        type: integer
+      created_by:
+        $ref: '#/definitions/model.Creator'
+        type: object
+      description:
+        type: string
+      id:
+        type: string
+      poster_image:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      total_contribution_amount:
+        type: string
+      total_contributors:
+        type: integer
+      url:
+        type: string
+      video_url:
+        type: string
+    type: object
+host: api.kryptokrauts.com
+info:
+  contact:
+    email: kryptokrauts@protonmail.com
+    name: kryptokrauts
+    url: https://kryptokrauts.com
+  description: This API can be used to receive videos of the kryptokrauts community
+    on Pepo.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: 'Pepo: kryptokrauts community'
+  version: "1.0"
+paths:
+  /videos:
+    get:
+      consumes:
+      - application/json
+      description: get videos of the kryptokrauts community on Pepo sorted by creation
+        date
+      parameters:
+      - description: amount of videos to return maximal
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.PepoVideo'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.HTTPError'
+      summary: Get videos
+      tags:
+      - videos
+swagger: "2.0"

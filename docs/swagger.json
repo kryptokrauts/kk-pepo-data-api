@@ -1,0 +1,144 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This API can be used to receive videos of the kryptokrauts community on Pepo.",
+        "title": "Pepo: kryptokrauts community",
+        "contact": {
+            "name": "kryptokrauts",
+            "url": "https://kryptokrauts.com",
+            "email": "kryptokrauts@protonmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "api.kryptokrauts.com",
+    "basePath": "/pepo/v1",
+    "paths": {
+        "/videos": {
+            "get": {
+                "description": "get videos of the kryptokrauts community on Pepo sorted by creation date",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "videos"
+                ],
+                "summary": "Get videos",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of videos to return maximal",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.PepoVideo"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.HTTPError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "httputil.HTTPError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "message": {
+                    "type": "string",
+                    "example": "status bad request"
+                }
+            }
+        },
+        "model.Creator": {
+            "type": "object",
+            "properties": {
+                "github_handle": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profile_image": {
+                    "type": "string"
+                },
+                "tokenholder_address": {
+                    "type": "string"
+                },
+                "twitter_handle": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PepoVideo": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "object",
+                    "$ref": "#/definitions/model.Creator"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "poster_image": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "total_contribution_amount": {
+                    "type": "string"
+                },
+                "total_contributors": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "video_url": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
