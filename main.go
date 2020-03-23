@@ -52,7 +52,7 @@ func main() {
 	{
 		videos := v1.Group("/videos")
 		{
-			videos.GET("", controller.GetVideos)
+			videos.GET("", controller.GetPepoVideos)
 		}
 	}
 

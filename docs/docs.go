@@ -34,7 +34,7 @@ var doc = `{
     "paths": {
         "/videos": {
             "get": {
-                "description": "get videos of the kryptokrauts community on Pepo sorted by creation date",
+                "description": "get videos of the Pepo community kryptokrauts sorted by creation date",
                 "consumes": [
                     "application/json"
                 ],
@@ -44,11 +44,11 @@ var doc = `{
                 "tags": [
                     "videos"
                 ],
-                "summary": "Get videos",
+                "summary": "Get pepo videos",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "amount of videos to return maximal",
+                        "description": "maximum amount of videos to return",
                         "name": "limit",
                         "in": "query"
                     }

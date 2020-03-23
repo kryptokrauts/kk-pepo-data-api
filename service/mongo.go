@@ -6,7 +6,7 @@ import (
 	"../model"
 )
 
-// GetPepoVideos returns list of Pepo videos
+// GetPepoVideos returns array of model.PepoVideo
 func (s *Service) GetPepoVideos(limit int64) ([]model.PepoVideo, error) {
 	// TODO get contributions & videos
 	// transform to PepoVideo

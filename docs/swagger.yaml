@@ -68,10 +68,10 @@ paths:
     get:
       consumes:
       - application/json
-      description: get videos of the kryptokrauts community on Pepo sorted by creation
+      description: get videos of the Pepo community kryptokrauts sorted by creation
         date
       parameters:
-      - description: amount of videos to return maximal
+      - description: maximum amount of videos to return
         in: query
         name: limit
         type: integer
@@ -92,7 +92,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/httputil.HTTPError'
-      summary: Get videos
+      summary: Get pepo videos
       tags:
       - videos
 swagger: "2.0"
