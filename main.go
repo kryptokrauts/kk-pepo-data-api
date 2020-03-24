@@ -56,10 +56,17 @@ func main() {
 		}
 	}
 
-	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json") // The url pointing to API definition
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	url := ginSwagger.URL(getSwaggerBaseURL() + "/pepo/api/doc.json")
+	r.GET("/pepo/api/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	r.Run(":" + getPort())
+}
+
+func getSwaggerBaseURL() string {
+	if baseURL := os.Getenv("PEPO_SWAGGER_BASE_URL"); baseURL != "" {
+		return baseURL
+	}
+	return "http://localhost:8080"
 }
 
 func getPort() string {
