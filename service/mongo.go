@@ -31,7 +31,7 @@ func (s *Service) GetPepoVideos(limit int64) ([]model.PepoVideo, error) {
 	if err != nil {
 		return nil, err
 	}
-	var pepoVideos []model.PepoVideo
+	var pepoVideos = make([]model.PepoVideo, 0)
 	for _, videoUpdate := range videoUpdateList {
 		var videoContribution *model.EventPayload
 		opts := options.FindOne()

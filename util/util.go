@@ -2,7 +2,6 @@ package util
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"../model"
@@ -22,9 +21,7 @@ func Transform(updateEvent model.EventPayload, contributionEvent *model.EventPay
 		totalContributors = contributionEvent.Data.Activity.Video.TotalContributors
 		totalContributionAmount = contributionEvent.Data.Activity.Video.TotalContributionAmount
 	}
-	fmt.Println(Marshall(updateEvent))
 	actor := updateEvent.Data.Users[strconv.FormatInt(updateEvent.Data.Activity.ActorID, 10)]
-	fmt.Println(Marshall(actor))
 	creator := model.Creator{
 		ID:                 actor.ID,
 		Name:               actor.Name,
