@@ -119,9 +119,6 @@ var doc = `{
         "model.PepoVideo": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "type": "integer"
-                },
                 "created_by": {
                     "type": "object",
                     "$ref": "#/definitions/model.Creator"
@@ -130,7 +127,10 @@ var doc = `{
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "integer"
+                },
+                "modified_at": {
+                    "type": "integer"
                 },
                 "poster_image": {
                     "type": "string"

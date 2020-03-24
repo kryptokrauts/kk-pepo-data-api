@@ -26,15 +26,15 @@ definitions:
     type: object
   model.PepoVideo:
     properties:
-      created_at:
-        type: integer
       created_by:
         $ref: '#/definitions/model.Creator'
         type: object
       description:
         type: string
       id:
-        type: string
+        type: integer
+      modified_at:
+        type: integer
       poster_image:
         type: string
       tags:

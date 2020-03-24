@@ -22,13 +22,19 @@ import (
 // @Router /videos [get]
 func (c *Controller) GetPepoVideos(ctx *gin.Context) {
 	limit := ctx.Request.URL.Query().Get("limit")
-	n, err := strconv.ParseInt(limit, 10, 64)
-	if err == nil {
-		httputil.NewError(ctx, http.StatusBadRequest, err)
+	var limitNo int64 = 0
+	if limit != "" {
+		n, err := strconv.ParseInt(limit, 10, 64)
+		if err != nil {
+			httputil.NewError(ctx, http.StatusBadRequest, err)
+			return
+		}
+		limitNo = n
 	}
-	pepoVideos, err := c.Service.GetPepoVideos(n)
+	pepoVideos, err := c.Service.GetPepoVideos(limitNo)
 	if err != nil {
 		httputil.NewError(ctx, http.StatusInternalServerError, err)
+		return
 	}
 	ctx.JSON(http.StatusOK, pepoVideos)
 }

@@ -1,8 +1,8 @@
 package model
 
 type PepoVideo struct {
-	ID                      string   `json:"id"`
-	CreatedAt               int64    `json:"created_at"`
+	ID                      int64    `json:"id"`
+	LastModified            int64    `json:"modified_at"`
 	Creator                 Creator  `json:"created_by"`
 	URL                     string   `json:"url"`
 	VideoURL                string   `json:"video_url"`
@@ -14,10 +14,10 @@ type PepoVideo struct {
 }
 
 type Creator struct {
-	ID                 string `json:"id"`
-	Name               string `json:"name"`
-	ProfileImage       string `json:"profile_image"`
-	TokenholderAddress string `json:"tokenholder_address"`
-	TwitterHandle      string `json:"twitter_handle"`
-	GithubHandle       string `json:"github_handle"`
+	ID                 string  `json:"id"`
+	Name               string  `json:"name"`
+	ProfileImage       *string `json:"profile_image"`
+	TokenholderAddress *string `json:"tokenholder_address"`
+	TwitterHandle      *string `json:"twitter_handle"`
+	GithubHandle       *string `json:"github_handle"`
 }
