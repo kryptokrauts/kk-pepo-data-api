@@ -1,5 +1,8 @@
 package model
 
+type AggregationResultEventPayload struct {
+	Result EventPayload `bson:"result" json:"result"`
+}
 type EventPayload struct {
 	ID        string `bson:"_id" json:"id"`
 	Topic     string `bson:"topic" json:"topic"`
