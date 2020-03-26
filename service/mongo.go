@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,34 +14,29 @@ import (
 // GetPepoVideos returns array of model.PepoVideo
 func (s *Service) GetPepoVideos(limit int64) ([]model.PepoVideo, error) {
 	var videoUpdateResultList []model.AggregationResultEventPayload
-	// TODO return unique video id in case of duplicates
 	pipeline := []bson.M{
+		bson.M{
+			"$sort": bson.M{"created_at": -1},
+		},
 		bson.M{
 			"$group": bson.M{
 				"_id": "$data.activity.video.id",
-				"data": bson.M{
-					"$addToSet": bson.M{
-						"_id":        "$_id",
-						"topic":      "$topic",
-						"created_at": "$created_at",
-						"webhook_id": "$webhook_id",
-						"version":    "$version",
-						"data":       "$data",
-					},
+				"status": bson.M{
+					"$addToSet": "$data.activity.video.status",
+				},
+				"result": bson.M{
+					"$first": "$$ROOT",
 				},
 			},
-		},
-		bson.M{
-			"$sort": bson.M{"created_at": -1},
 		},
 		bson.M{
 			"$match": bson.M{
 				"$and": []bson.M{
 					bson.M{
-						"data.data.activity.video.status": "ACTIVE",
+						"status": "ACTIVE",
 					},
 					bson.M{
-						"data.data.activity.video.status": bson.M{
+						"status": bson.M{
 							"$not": bson.M{
 								"$eq": "DELETED",
 							},
@@ -54,11 +48,8 @@ func (s *Service) GetPepoVideos(limit int64) ([]model.PepoVideo, error) {
 		bson.M{
 			"$project": bson.M{
 				"_id":    0,
-				"result": "$data",
+				"result": 1,
 			},
-		},
-		bson.M{
-			"$unwind": "$result",
 		},
 	}
 	cur, err := videoUpdates(s).Aggregate(context.Background(), pipeline)
@@ -75,9 +66,7 @@ func (s *Service) GetPepoVideos(limit int64) ([]model.PepoVideo, error) {
 		var videoContribution *model.EventPayload
 		opts := options.FindOne()
 		opts.SetSort(bson.D{{Key: "created_at", Value: -1}})
-		if err = videoContributions(s).FindOne(context.Background(), bson.M{"data.activity.video.id": videoUpdateResult.Result.Data.Activity.Video.ID}, opts).Decode(&videoContribution); err != nil {
-			fmt.Println(fmt.Sprintf("previous contribution doesn't exist for video with id: %d", videoUpdateResult.Result.Data.Activity.Video.ID))
-		}
+		videoContributions(s).FindOne(context.Background(), bson.M{"data.activity.video.id": videoUpdateResult.Result.Data.Activity.Video.ID}, opts).Decode(&videoContribution)
 		pepoVideos = append(pepoVideos, util.Transform(videoUpdateResult.Result, videoContribution))
 	}
 	return pepoVideos, nil
