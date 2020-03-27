@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -58,7 +59,7 @@ func main() {
 
 	url := ginSwagger.URL(getSwaggerBaseURL() + "/pepo/api/doc.json")
 	r.GET("/pepo/api/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-
+	r.Use(cors.Default())
 	r.Run(":" + getPort())
 }
 
