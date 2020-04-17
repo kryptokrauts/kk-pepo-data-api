@@ -16,9 +16,6 @@ func (s *Service) GetPepoVideos(limit int64) ([]model.PepoVideo, error) {
 	var videoUpdateResultList []model.AggregationResultEventPayload
 	pipeline := []bson.M{
 		bson.M{
-			"$sort": bson.M{"created_at": -1},
-		},
-		bson.M{
 			"$group": bson.M{
 				"_id": "$data.activity.video.id",
 				"status": bson.M{
@@ -50,6 +47,9 @@ func (s *Service) GetPepoVideos(limit int64) ([]model.PepoVideo, error) {
 				"_id":    0,
 				"result": 1,
 			},
+		},
+		bson.M{
+			"$sort": bson.M{"result.created_at": -1},
 		},
 	}
 	cur, err := videoUpdates(s).Aggregate(context.Background(), pipeline)
